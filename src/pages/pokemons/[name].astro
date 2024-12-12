@@ -3,6 +3,7 @@ import type { GetStaticPaths } from "astro";
 import MainLayout from "@layouts/MainLayout.astro";
 import PokemonCard from "@components/pokemons/PokemonCard.astro";
 import type { PokemonListResponse } from "@interfaces/pokemon-list.response";
+import Title from "@components/shared/Title.astro";
 
 export const getStaticPaths = (async () => {
   const res = await fetch("https://pokeapi.co/api/v2/pokemon?limit=151");
@@ -22,11 +23,11 @@ const audioSrc = `https://raw.githubusercontent.com/PokeAPI/cries/main/cries/pok
 ---
 
 <MainLayout title=`Pokemons | ${name}`>
-    <a href="/" class="mx-20">← Back to Pokemons List</a>
-    <section class="mt-10 mx-10 flex flex-col justify-center items-center">
+  <button onclick="history.back()" class="text-blue-500 mx-20">← Go Back</button>
+  <section class="mt-10 mx-10 flex flex-col justify-center items-center">
       <div>
-          <h1 class="text-5xl capitalize">{name}</h1>
-        </div>
+        <Title>{name}</Title>
+      </div>
     <br>
     <PokemonCard url={url} name={name} isBig/>
     <audio controls class="mb-5">

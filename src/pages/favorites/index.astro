@@ -1,9 +1,10 @@
 ---
+import Title from "@components/shared/Title.astro";
 import MainLayout from "@layouts/MainLayout.astro";
 
-
+const title = "Favorites"
 ---
 
-<MainLayout title="Favorites">
-    <h1>Favorites</h1>
+<MainLayout title={title}>
+    <Title>{title}</Title>
 </MainLayout>

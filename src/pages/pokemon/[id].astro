@@ -24,7 +24,7 @@ const audioSrc = `https://raw.githubusercontent.com/PokeAPI/cries/main/cries/pok
 ---
 
 <MainLayout title=`Pokemon | ${name}`>
-  <a href="/" class="mx-20">← Back to Pokemons List</a>
+  <button onclick="history.back()" class="text-blue-500 mx-20">← Go Back</button>
   <section class="mt-10 mx-10 flex flex-col justify-center items-center">
     <div>
       <h1 class="text-5xl capitalize">{name}</h1>
