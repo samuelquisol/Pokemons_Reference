@@ -1,0 +1,102 @@
+---
+interface Props {
+  url: string;
+  name: string;
+  isBig?: boolean;
+}
+
+const { url, name, isBig } = Astro.props;
+const id = url.split("/").at(-2);
+const imageSrc = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${id}.png`;
+---
+
+<a
+  href={`/pokemons/${name}`}
+  class={`rounded flex flex-col justify-center items-center text-center p-2 ${!isBig ? "border-8 shiny-border" : ""}`}
+>
+  <img
+    transition:name={`${name}-${id}-image`}
+    style={{
+      background: "white",
+      "border-radius": "15px",
+    }}
+    src={imageSrc}
+    alt=""
+  />
+
+  <span
+    class:list={[
+      "capitalize",
+      "text-xl",
+      {
+        "text-4xl text-blue-500": isBig,
+      },
+    ]}>#{id} {name}</span
+  >
+</a>
+
+<style>
+  .shiny-border {
+    font-weight: bold;
+    text-transform: uppercase;
+    padding: 10%;
+    color: black;
+    border: 6px solid #ffe100;
+    border-radius: 15px;
+    background: linear-gradient(90deg, darkgoldenrod, white, darkgoldenrod);
+    background-clip: padding-box;
+    position: relative;
+    box-shadow:
+      0 0 20px rgba(139, 69, 19, 0.6),
+      0 0 30px rgba(255, 215, 0, 0.8);
+    animation: shine 1s ease-out infinite;
+    transition:
+      background 0.5s ease-in-out,
+      box-shadow 0.5s ease-in-out;
+  }
+
+  .shiny-border:hover {
+    animation: none;
+    background: white; /* Cambia a un blanco luminoso */
+    box-shadow:
+      0 0 40px rgba(255, 255, 255, 0.9),
+      0 0 20px rgba(139, 69, 19, 0.7); /* Más brillo en hover */
+    animation: levitate 2s ease-in-out infinite;
+  }
+
+  /* Efecto de brillo ultra suave */
+  @keyframes shine {
+    0% {
+      background: linear-gradient(90deg, darkgoldenrod, white, darkgoldenrod);
+    }
+    10% {
+      background: linear-gradient(90deg, #b8860b, #f5f5dc, #b8860b);
+    }
+    30% {
+      background: linear-gradient(90deg, white, darkgoldenrod, white);
+    }
+    50% {
+      background: linear-gradient(90deg, #f5f5dc, #b8860b, #f5f5dc);
+    }
+    70% {
+      background: linear-gradient(90deg, darkgoldenrod, white, darkgoldenrod);
+    }
+    90% {
+      background: linear-gradient(90deg, white, darkgoldenrod, white);
+    }
+    100% {
+      background: linear-gradient(90deg, darkgoldenrod, white, darkgoldenrod);
+    }
+  }
+
+  /* Efecto de levitación */
+  @keyframes levitate {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+  }
+</style>
