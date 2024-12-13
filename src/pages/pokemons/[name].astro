@@ -19,19 +19,26 @@ const { name } = Astro.params;
 const { url } = Astro.props;
 
 const id = url.split("/").at(-2);
+
 const audioSrc = `https://raw.githubusercontent.com/PokeAPI/cries/main/cries/pokemon/latest/${id}.ogg`;
+const imageSrc = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${id}.png`;
 ---
 
-<MainLayout title=`Pokemons | ${name}`>
-  <button onclick="history.back()" class="text-blue-500 mx-20">← Go Back</button>
+<MainLayout
+  title=`Pokemon | #${id} ${name}`
+  description=`Information about ${name}`
+  image={imageSrc}
+>
+  <button onclick="history.back()" class="text-blue-500 mx-20">← Go Back</button
+  >
   <section class="mt-10 mx-10 flex flex-col justify-center items-center">
-      <div>
-        <Title>{name}</Title>
-      </div>
-    <br>
-    <PokemonCard url={url} name={name} isBig/>
+    <div>
+      <Title>{name}</Title>
+    </div>
+    <br />
+    <PokemonCard url={url} name={name} isBig />
     <audio controls class="mb-5">
-      <source src={audioSrc} type="audio/ogg"/>
+      <source src={audioSrc} type="audio/ogg" />
     </audio>
   </section>
 </MainLayout>
