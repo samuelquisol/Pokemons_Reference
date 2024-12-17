@@ -44,7 +44,7 @@ const { page } = Astro.props;
 
   <section
     area-label="Pokemons List"
-    class="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-6 gap-4 mt-4"
+    class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-4 mt-4"
   >
     {page.data.map(({ url, name }) => <PokemonCard name={name} url={url} />)}
   </section>
