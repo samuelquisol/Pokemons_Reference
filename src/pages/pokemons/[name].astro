@@ -53,59 +53,73 @@ const imageSrc = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprit
 </MainLayout>
 
 <script>
-  interface FavoritePokemon {
-    name: String;
-    id: Number;
+  
+interface FavoritePokemon {
+  name: String;
+  id: Number;
+}
+
+const handlePageLoad = () => {
+  let favoritePokemons: FavoritePokemon[] = JSON.parse(
+    localStorage.getItem('favorites') ?? '[]'
+  );
+
+  const btnFavoritePokemon = document.querySelector(
+    "#btn-favorite"
+  ) as HTMLButtonElement;
+
+  if (!btnFavoritePokemon) return;
+
+  const pokemonName = btnFavoritePokemon.dataset.name;
+  const pokemonId = btnFavoritePokemon.dataset.id;
+  const isFavorite = favoritePokemons.some(fav => fav.name === pokemonName);
+
+  if (!pokemonId) {
+    console.error("pokemonId is undefined");
+    return;
   }
 
-  const handlePageLoad = () => {
-    let favoritePokemons: FavoritePokemon[] = JSON.parse(
-      localStorage.getItem('favorites') ?? '[]'
-    );
+  const heartEmpty = btnFavoritePokemon.querySelector(
+    "[data-heart-empty]"
+  ) as HTMLButtonElement;
+  const heartFilled = btnFavoritePokemon.querySelector(
+    "[data-heart-filled]"
+  ) as HTMLButtonElement;
 
-    const btnFavoritePokemon = document.querySelector(
-      "#btn-favorite"
-    ) as HTMLButtonElement;
+  
+  if(isFavorite) {
+    heartEmpty.classList.add('hidden');
+    heartFilled.classList.remove('hidden');
+  }
 
-    if (!btnFavoritePokemon) return;
+  const toggleFavorite = () => {
+    const isFavorite = favoritePokemons.some(fav => fav.name === pokemonName);
 
-    const pokemonName = btnFavoritePokemon.dataset.name;
-    const pokemonId = btnFavoritePokemon.dataset.id;
-
-    const heartEmpty = btnFavoritePokemon.querySelector(
-      "[data-heart-empty]"
-    ) as HTMLButtonElement;
-    const heartFilled = btnFavoritePokemon.querySelector(
-      "[data-heart-filled]"
-    ) as HTMLButtonElement;
-
-    const toggleFavorite = () => {
-      const isFavorite = favoritePokemons.some(fav => fav.name === pokemonName);
-
-      if( isFavorite){
-        favoritePokemons.filter(fav => fav.name !== pokemonName);
-      }else {
-        favoritePokemons.push({
-          name: pokemonName,
-          id: +pokemonId,
-        })
-      }
-
-      localStorage.setItem('favorites', JSON.stringify(favoritePokemons))
+    if (isFavorite) {
+      favoritePokemons = favoritePokemons.filter(fav => fav.name !== pokemonName);
+    } else {
+      favoritePokemons.push({
+        name: pokemonName ?? '',
+        id: pokemonId ? +pokemonId : 0,
+      });
     }
 
-    btnFavoritePokemon.addEventListener("click", () => {
-
-      heartEmpty.classList.toggle("hidden");
-      heartFilled.classList.toggle("hidden");
-
-      toggleFavorite();
-    });
+    localStorage.setItem('favorites', JSON.stringify(favoritePokemons));
   };
 
-  document.addEventListener("astro:page-load", () => {
-    handlePageLoad();
+
+  btnFavoritePokemon.addEventListener("click", () => {
+    heartEmpty.classList.toggle("hidden");
+    heartFilled.classList.toggle("hidden");
+
+    toggleFavorite();
   });
+};
+
+document.addEventListener("astro:page-load", () => {
+  handlePageLoad();
+});
+
 </script>
 
 <style>
