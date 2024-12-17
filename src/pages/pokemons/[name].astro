@@ -39,8 +39,8 @@ const imageSrc = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprit
       </div>
 
       <button id="btn-favorite" class="ml-4" data-name={name} data-id={id}>
-        <Icon name="heart-empty" size={50} />
-        <Icon class="hidden" name="heart-filled" size={50} />
+        <Icon data-heart-empty name="heart-empty" size={50} />
+        <Icon data-heart-filled class="hidden" name="heart-filled" size={50} />
       </button>
     </div>
 
@@ -58,7 +58,11 @@ const imageSrc = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprit
     id: Number;
   }
 
-  document.addEventListener("astro:page-load", () => {
+  const handlePageLoad = () => {
+    let favoritePokemons: FavoritePokemon[] = JSON.parse(
+      localStorage.getItem('favorites') ?? '[]'
+    );
+
     const btnFavoritePokemon = document.querySelector(
       "#btn-favorite"
     ) as HTMLButtonElement;
@@ -68,9 +72,39 @@ const imageSrc = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprit
     const pokemonName = btnFavoritePokemon.dataset.name;
     const pokemonId = btnFavoritePokemon.dataset.id;
 
+    const heartEmpty = btnFavoritePokemon.querySelector(
+      "[data-heart-empty]"
+    ) as HTMLButtonElement;
+    const heartFilled = btnFavoritePokemon.querySelector(
+      "[data-heart-filled]"
+    ) as HTMLButtonElement;
+
+    const toggleFavorite = () => {
+      const isFavorite = favoritePokemons.some(fav => fav.name === pokemonName);
+
+      if( isFavorite){
+        favoritePokemons.filter(fav => fav.name !== pokemonName);
+      }else {
+        favoritePokemons.push({
+          name: pokemonName,
+          id: +pokemonId,
+        })
+      }
+
+      localStorage.setItem('favorites', JSON.stringify(favoritePokemons))
+    }
+
     btnFavoritePokemon.addEventListener("click", () => {
-      console.log(pokemonName, pokemonId);
+
+      heartEmpty.classList.toggle("hidden");
+      heartFilled.classList.toggle("hidden");
+
+      toggleFavorite();
     });
+  };
+
+  document.addEventListener("astro:page-load", () => {
+    handlePageLoad();
   });
 </script>
 
