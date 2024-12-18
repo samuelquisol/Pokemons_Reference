@@ -13,9 +13,9 @@ const imageSrc = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprit
 <a
   href={`/pokemons/${name}`}
   class={`rounded flex flex-col justify-center items-center text-center p-2 ${!isBig ? "border-8 shiny-border" : ""}`}
+  transition:name={`${name}-${id}-image`}
 >
   <img
-    transition:name={`${name}-${id}-image`}
     style={{
       background: "white",
       "border-radius": "15px",
@@ -31,7 +31,7 @@ const imageSrc = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprit
       {
         "text-4xl text-blue-500": isBig,
       },
-    ]}>#{id} {name}</span
+    ]}>#{id} <br /> {name}</span
   >
 </a>
 
