@@ -16,7 +16,7 @@ export const FavoritePokemons = () => {
 
   return (
     <div class="grid grid-cols-2 sm:grid-cols-4">
-      <For each={pokemons()}>
+      <For each={pokemons().slice().sort((a, b) => a.id - b.id)}>
         {(pokemon) => <FavoritePokemonCard pokemon={pokemon} />}
       </For>
     </div>

@@ -42,5 +42,4 @@ export const FavoritePokemonCard: Component<Props> = ({ pokemon }) => {
       </div>
     </Show>
   );
-  
 };
